@@ -9,7 +9,14 @@ const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
-
+  type DecodedToken = {
+    email: string;
+    role: 'EMPLOYEE' | 'ADMIN';
+    _id: string;
+    iat?: number; // optional: issued at
+    exp?: number; // optional: expiry
+  };
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -20,8 +27,7 @@ const LoginPage = () => {
     try {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, formData);
       const token = response.data.token;
-      const decoded: any = jwtDecode(token);
-
+      const decoded: DecodedToken = jwtDecode(token);
       const user = {
         email: decoded.email,
         role: decoded.role,
@@ -37,9 +43,17 @@ const LoginPage = () => {
       } else {
         navigate('/dashboard');
       }
-    } catch (error) {
-      alert('Login failed: ' + (error.response?.data?.message || error.message));
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        alert('Login failed: ' + error.message);
+      } else if (typeof error === 'object' && error !== null && 'response' in error) {
+        const axiosError = error as { response?: { data?: { message?: string } } };
+        alert('Login failed: ' + (axiosError.response?.data?.message || 'Unknown error'));
+      } else {
+        alert('Login failed: Unknown error');
+      }
     }
+    
   };
 
   return (

@@ -9,7 +9,7 @@ const COLORS = ['#00C49F', '#FFBB28', '#FF8042'];
 const AdminAnalyticsDashboard = () => {
   const { expenses } = useSelector((state: RootState) => state.expenses);
 
-  const statusData = ['APPROVED', 'PENDING', 'REJECTED'].map((status, i) => ({
+  const statusData = ['APPROVED', 'PENDING', 'REJECTED'].map((status) => ({
     name: status,
     value: expenses.filter((e) => e.status === status).length,
   }));

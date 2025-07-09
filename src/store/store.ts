@@ -1,8 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, type Middleware } from '@reduxjs/toolkit';
 import createSagaMiddleware from 'redux-saga';
+
 import authReducer from './slices/authSlice';
 import expensesReducer from './slices/expensesSlices';
-import rootSaga from './sagas'; 
+import rootSaga from './sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -12,7 +13,7 @@ export const store = configureStore({
     expenses: expensesReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
+    getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware as Middleware),
 });
 
 sagaMiddleware.run(rootSaga);

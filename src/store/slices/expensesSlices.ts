@@ -2,19 +2,19 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 // Define the Expense interface
-// export interface Expense {
-//   _id: string;
-//   userId: {
-//     _id: string;
-//     email: string;
-//   };
-//   amount: number;
-//   category: string;
-//   description: string;
-//   date: string;
-//   status: 'PENDING' | 'APPROVED' | 'REJECTED';
-//   __v: number;
-// }
+export interface Expense {
+  _id: string;
+  userId: {
+    _id: string;
+    email: string;
+  };
+  amount: number;
+  category: string;
+  description: string;
+  date: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED';
+  __v: number;
+}
 export interface Expense {
   _id: string;
   userId: { _id: string; email: string };
@@ -61,21 +61,20 @@ const expensesSlice = createSlice({
       state.error = null;
     },
 
-    // ✅ On Success
+    
     fetchExpensesSuccess(state, action: PayloadAction<Expense[]>) {
       state.expenses = action.payload;
       state.loading = false;
       state.error = null;
     },
 
-    // ❌ On Failure
+   
     fetchExpensesFailure(state, action: PayloadAction<string>) {
       state.error = action.payload;
       state.loading = false;
     },
 
-    // ➕ Add Start (handled by Saga)
-    addExpenseStart(state) {
+    addExpenseStart: (state, _action: PayloadAction<Partial<Expense>>) => {
       state.error = null;
     },
 
@@ -84,7 +83,7 @@ const expensesSlice = createSlice({
       state.expenses.unshift(action.payload); // optional: already refetching
     },
 
-    // ❌ On Add Failure
+    
     addExpenseFailure(state, action: PayloadAction<string>) {
       state.error = action.payload;
     },

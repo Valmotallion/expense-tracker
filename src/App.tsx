@@ -6,7 +6,7 @@ import NotAuthorizedPage from './pages/NotAuthorizedPage';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from './store/store';
 import { jwtDecode } from 'jwt-decode';
-import { useEffect } from 'react';
+import { useEffect, type JSX } from 'react';
 import { loginSuccess, logout } from './store/slices/authSlice';
 
 const App = () => {
