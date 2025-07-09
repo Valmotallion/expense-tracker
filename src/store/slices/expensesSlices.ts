@@ -15,7 +15,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 //   status: 'PENDING' | 'APPROVED' | 'REJECTED';
 //   __v: number;
 // }
-interface Expense {
+export interface Expense {
   _id: string;
   userId: { _id: string; email: string };
   amount: number;

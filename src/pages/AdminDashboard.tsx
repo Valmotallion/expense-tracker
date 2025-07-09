@@ -4,6 +4,7 @@ import { fetchExpensesStart, updateExpenseStatusStart } from '../store/slices/ex
 import type { RootState } from '../store/store';
 import { toast } from 'react-toastify';
 import AdminAnalyticsDashboard from './AdminAnalyticsDashboard';
+import LogoutButton from '../components/LogoutButton';
 
 
 const AdminDashboard = () => {
@@ -32,6 +33,7 @@ useEffect(() => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Admin Approval Queue</h2>
+      <LogoutButton/>
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       <AdminAnalyticsDashboard />

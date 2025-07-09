@@ -18,7 +18,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, formData);
       const token = response.data.token;
       const decoded: any = jwtDecode(token);
 
@@ -28,6 +28,7 @@ const LoginPage = () => {
       };
 
       // Save token and user info to Redux
+      localStorage.setItem('token', token);
       dispatch(loginSuccess({ token, user }));
 
       // Redirect user based on role

@@ -29,7 +29,7 @@ function getAuthHeaders() {
 function* fetchExpensesSaga() {
   try {
     const response: AxiosResponse<Expense[]> = yield call(() =>
-      axios.get('/api/expenses', getAuthHeaders())
+      axios.get('/expenses', getAuthHeaders())
     );
     yield put(fetchExpensesSuccess(response.data)); // ✅ pass array directly
   } catch (error: unknown) {
@@ -44,7 +44,7 @@ function* addExpenseSaga(action: PayloadAction<Partial<Expense>>) {
 
   try {
     const response: AxiosResponse<Expense> = yield call(() =>
-      axios.post('/api/expenses', action.payload, getAuthHeaders())
+      axios.post('/expenses', action.payload, getAuthHeaders())
     );
     console.log('API response:', response.data);
 
@@ -80,7 +80,7 @@ function* updateExpenseStatusSaga(action: PayloadAction<{ id: string; status: 'A
     const { id, status } = action.payload;
     
     yield call(() => 
-      axios.patch(`/api/expenses/${id}/approve`, { status }, getAuthHeaders())
+      axios.patch(`/expenses/${id}/approve`, { status }, getAuthHeaders())
     );
 
     yield put(updateExpenseStatusSuccess({ id, status }));
