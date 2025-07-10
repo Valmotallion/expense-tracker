@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import type { AppDispatch } from '../store/store'; // if using typed dispatch
+import type { AppDispatch } from '../store/store';
 import { addExpenseStart } from '../store/slices/expensesSlices';
 
 const AddExpenseForm = () => {
@@ -21,7 +21,6 @@ const AddExpenseForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Dispatching addExpenseStart');
 
     const expense = {
       amount: Number(formData.amount),
@@ -36,26 +35,39 @@ const AddExpenseForm = () => {
     setFormData({ amount: '', category: '', description: '', date: '' });
   };
 
+  const categoryOptions = ['Transport', 'Food', 'Medicine', 'Others'];
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto p-6 bg-white rounded shadow">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 max-w-lg mx-auto p-6 bg-white rounded shadow"
+    >
       <input
         type="number"
         name="amount"
-        placeholder="Amount"
+        placeholder="Amount in $"
         value={formData.amount}
         onChange={handleChange}
         className="w-full border border-gray-300 p-2 rounded"
         required
       />
-      <input
-        type="text"
+
+      {/* ✅ Dropdown for category */}
+      <select
         name="category"
-        placeholder="Category"
         value={formData.category}
         onChange={handleChange}
         className="w-full border border-gray-300 p-2 rounded"
         required
-      />
+      >
+        <option value="">Select Category</option>
+        {categoryOptions.map((cat) => (
+          <option key={cat} value={cat}>
+            {cat}
+          </option>
+        ))}
+      </select>
+
       <input
         type="text"
         name="description"

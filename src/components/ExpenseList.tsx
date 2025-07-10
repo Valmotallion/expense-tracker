@@ -14,30 +14,34 @@ const ExpenseList = () => {
     dispatch(fetchExpensesStart());
   }, [dispatch]);
 
-  if (loading) return <p>Loading expenses...</p>;
-if (error) return <p className="text-red-500">Error: {error}</p>;
-if (!expenses) return null;
-
   const filteredExpenses = (expenses || []).filter((exp) => {
-    const matchCategory = categoryFilter
-      ? exp.category.toLowerCase().includes(categoryFilter.toLowerCase())
-      : true;
+    const matchCategory = categoryFilter ? exp.category === categoryFilter : true;
     const matchDate = dateFilter ? exp.date.slice(0, 10) === dateFilter : true;
     return matchCategory && matchDate;
   });
+
+  const categoryOptions = ['Transport', 'Food', 'Medicine', 'Others'];
 
   return (
     <div className="mt-8">
       <h2 className="text-xl font-bold mb-4">Your Submitted Expenses</h2>
 
       <div className="flex gap-4 mb-4">
-        <input
-          type="text"
-          placeholder="Filter by category"
+        {/* ✅ Dropdown for Category */}
+        <select
           className="border px-2 py-1 rounded"
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
-        />
+        >
+          <option value="">All Categories</option>
+          {categoryOptions.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+
+        {/* ✅ Date Filter */}
         <input
           type="date"
           className="border px-2 py-1 rounded"
@@ -63,7 +67,7 @@ if (!expenses) return null;
           <tbody>
             {filteredExpenses.map((exp) => (
               <tr key={exp._id} className="border-t">
-                <td className="p-3">₹{exp.amount}</td>
+                <td className="p-3">${exp.amount.toFixed(2)}</td> {/* ✅ Currency changed to $ */}
                 <td className="p-3">{exp.category}</td>
                 <td className="p-3">{exp.description}</td>
                 <td className="p-3">{new Date(exp.date).toLocaleDateString()}</td>
@@ -85,3 +89,4 @@ if (!expenses) return null;
 };
 
 export default ExpenseList;
+  

@@ -42,7 +42,7 @@ const ExpenseListWithPagination = () => {
         <tbody>
           {currentExpenses.map((exp) => (
             <tr key={exp._id} className="border-t">
-              <td className="p-2">₹{exp.amount}</td>
+              <td className="p-2">${exp.amount}</td>
               <td className="p-2">{exp.category}</td>
               <td className="p-2">{exp.description}</td>
               <td className="p-2">{new Date(exp.date).toLocaleDateString()}</td>
